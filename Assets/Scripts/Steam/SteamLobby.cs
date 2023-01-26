@@ -16,6 +16,8 @@ public class SteamLobby : MonoBehaviour
 
     private int playerCount = 0;
 
+    public ulong LobbyID { get; private set; }
+
     public void Start()
     {
         if (SteamManager.Initialized)
@@ -48,6 +50,9 @@ public class SteamLobby : MonoBehaviour
             new CSteamID(pCallback.m_ulSteamIDLobby),
             s_HostAddressKey,
             SteamUser.GetSteamID().ToString());
+
+        //ロビーID保存
+        LobbyID = pCallback.m_ulSteamIDLobby;
 
         //サーバー開始コールバック
         NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
@@ -89,6 +94,9 @@ public class SteamLobby : MonoBehaviour
         string hostAddress = SteamMatchmaking.GetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
             s_HostAddressKey);
+
+        //ロビーID保存
+        LobbyID = callback.m_ulSteamIDLobby;
 
         //ホスト（CreateLobbyした本人）もここを通るのでクライアント接続しないようにリターン
         if (hostAddress == SteamUser.GetSteamID().ToString()) { return; }
