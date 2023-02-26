@@ -12,10 +12,11 @@ public class CoinCount : MonoBehaviour
     {
         if(m_target == null)
         {
-            Destroy(this);
+            Destroy(gameObject);
             return; 
         }
 
+        //ワールド座標をスクリーン座標に変換
         transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, m_target.position + Vector3.up);
     }
 

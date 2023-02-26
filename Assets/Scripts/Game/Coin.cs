@@ -8,6 +8,9 @@ public class Coin : NetworkBehaviour
 {
     private void Update()
     {
-        transform.Rotate(Vector3.up, Space.World);
+        if(IsServer)
+        {
+            transform.Rotate(Vector3.up, Space.World);
+        }
     }
 }

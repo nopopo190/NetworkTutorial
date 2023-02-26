@@ -14,12 +14,11 @@ public class SteamLobby : MonoBehaviour
     //ロビーデータ設定用キー
     private const string s_HostAddressKey = "HostAddress";
 
-    private int playerCount = 0;
-
     public ulong LobbyID { get; private set; }
 
     public void Start()
     {
+        //SteamManagerの初期化が完了していたら
         if (SteamManager.Initialized)
         {
             m_crLobbyCreated = CallResult<LobbyCreated_t>.Create(OnCreateLobby);
@@ -38,6 +37,7 @@ public class SteamLobby : MonoBehaviour
         m_crLobbyCreated.Set(hCreateLobby);
     }
 
+    //ロビー作成完了コールバック
     private void OnCreateLobby(LobbyCreated_t pCallback, bool bIOFailure)
     {
         if (pCallback.m_eResult != EResult.k_EResultOK || bIOFailure)
@@ -113,7 +113,6 @@ public class SteamLobby : MonoBehaviour
         Debug.Log($"SteamID{hostAddress}の部屋に接続");
     }
 
-
     /// <summary>
     /// 接続承認
     /// </summary>
@@ -130,9 +129,6 @@ public class SteamLobby : MonoBehaviour
             response.Pending = false;
             return;
         }
-
-        //接続カウント
-        playerCount++;
 
         //ここからは接続成功クライアントに向けた処理
         response.Approved = true;//接続を許可

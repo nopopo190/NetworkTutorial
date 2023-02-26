@@ -14,6 +14,9 @@ using UnityEngine;
 using System.Collections;
 using Steamworks;
 using UnityEngine.Networking.Types;
+using System.Collections.Generic;
+using System.Linq;
+using static UnityEditor.Progress;
 #endif
 
 //
