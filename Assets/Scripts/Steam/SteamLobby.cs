@@ -40,6 +40,7 @@ public class SteamLobby : MonoBehaviour
     //ロビー作成完了コールバック
     private void OnCreateLobby(LobbyCreated_t pCallback, bool bIOFailure)
     {
+        //ロビー作成成功していなかった場合
         if (pCallback.m_eResult != EResult.k_EResultOK || bIOFailure)
         {
             return;
@@ -80,11 +81,12 @@ public class SteamLobby : MonoBehaviour
     }
 
     /// <summary>
-    /// ロビー入出コールバック
+    /// ロビー入室コールバック
     /// </summary>
     /// <param name="callback"></param>
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
+        //入室失敗時
         if ((EChatRoomEnterResponse)callback.m_EChatRoomEnterResponse != EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess)
         {
             return;
@@ -95,11 +97,11 @@ public class SteamLobby : MonoBehaviour
             new CSteamID(callback.m_ulSteamIDLobby),
             s_HostAddressKey);
 
-        //ロビーID保存
-        LobbyID = callback.m_ulSteamIDLobby;
-
         //ホスト（CreateLobbyした本人）もここを通るのでクライアント接続しないようにリターン
         if (hostAddress == SteamUser.GetSteamID().ToString()) { return; }
+
+        //ロビーID保存
+        LobbyID = callback.m_ulSteamIDLobby;
 
         //Netcodeでクライアント接続
         var stp = (SteamNetworkingSocketsTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;

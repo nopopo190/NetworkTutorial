@@ -4,19 +4,26 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
-public class Title : MonoBehaviour
+namespace Tutorial3
 {
-    [SerializeField]
-    TMP_InputField m_joinLobbyID;
-
-    public void StartHost()
+    public class Title : MonoBehaviour
     {
-        SteamLobby.Instance.CreateLobby();
+        [SerializeField]
+        TMP_InputField m_joinLobbyID;
+
+        public void StartHost()
+        {
+            //ロビー作成
+            SteamLobby.Instance.CreateLobby();
+        }
+
+        public void StartClient()
+        {
+            //ロビー入室
+            SteamLobby.Instance.JoinLobby((CSteamID)ulong.Parse(m_joinLobbyID.text));
+        }
     }
 
-    public void StartClient()
-    {
-        SteamLobby.Instance.JoinLobby((CSteamID)ulong.Parse(m_joinLobbyID.text));
-    }
 }
